@@ -1,26 +1,141 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --skymedia-red: #EA3829;
+    --skymedia-red-hover: #D32F2F;
+    --skymedia-dark-red: #8B0000;
+    --skymedia-dark: #0B0F19;
+    --skymedia-dark-card: #141A29;
+    --skymedia-bg-light: #F8F9FA;
+    --skymedia-card-grey: #EAEAEA;
+    --skymedia-text-dark: #1E293B;
+    --skymedia-text-muted: #64748B;
+    --skymedia-emerald: #25D366;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--skymedia-bg-light);
+  color: var(--skymedia-text-dark);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Custom Red Accent Utilities */
+.bg-skymedia-red {
+  background-color: #EA3829;
+}
+
+.bg-skymedia-dark {
+  background-color: #0B0F19;
+}
+
+.text-skymedia-red {
+  color: #EA3829;
+}
+
+.border-skymedia-red {
+  border-color: #EA3829;
+}
+
+/* Red textured particle banner background */
+.bg-red-particle-texture {
+  background-color: #8B0000;
+  background-image: 
+    radial-gradient(#EA3829 1.5px, transparent 1.5px), 
+    radial-gradient(#EA3829 1.5px, #8B0000 1.5px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+/* Rounded Category Pill Cards (Matches Screenshot) */
+.category-pill-card {
+  background-color: #EAEAEA;
+  border-radius: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-pill-card:hover {
+  background-color: #E0E0E0;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgba(234, 56, 41, 0.15);
+}
+
+/* Product Card Styling */
+.skymedia-product-card {
+  background-color: #FFFFFF;
+  border-radius: 1rem;
+  border: 1px solid #F1F3F5;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skymedia-product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.08), 0 0 1px 1px rgba(234, 56, 41, 0.1);
+}
+
+/* Quick View Hover Button Overlay */
+.quick-view-btn {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.25s ease-in-out;
+}
+
+.skymedia-product-card:hover .quick-view-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Floating WhatsApp Pulse Animation */
+@keyframes whatsapp-ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+.animate-whatsapp-pulse {
+  animation: whatsapp-ripple 2s infinite;
+}
+
+/* Glassmorphism utility */
+.glass-card-dark {
+  background: rgba(11, 15, 25, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F8F9FA;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #EA3829;
+}
+
+/* Hide Next.js Dev Indicator Badge & Overlay Toasts */
+[data-nextjs-toast],
+[data-nextjs-dialog-header],
+nextjs-portal,
+#next-logo-badge,
+button[aria-label*="Next.js"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
