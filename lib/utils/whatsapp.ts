@@ -12,6 +12,7 @@ export function getPhoneNumber(): string {
 
 export function getStoreEmail(): string {
   return process.env.NEXT_PUBLIC_STORE_EMAIL || 'info@skyhubmobi.com';
+
 }
 
 
@@ -19,9 +20,9 @@ export function generateProductWhatsAppLink(product: Product, pageUrl?: string):
   const phone = getWhatsAppNumber();
   const siteUrl = getSiteUrl();
   const fullUrl = pageUrl || `${siteUrl}/products/${product.slug}`;
-  
+
   const text = `Hi SKYHUB DUBAI,\n\nI am interested in buying the following device:\n📌 *${product.name}*\n🏷 Condition: *${product.condition}${product.condition_grade ? ` (${product.condition_grade})` : ''}*\n💰 Price: *AED ${product.price.toLocaleString()}*\n\nProduct Link: ${fullUrl}\n\nIs this item currently available at your Fish Roundabout store?`;
-  
+
   return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
 }
 
