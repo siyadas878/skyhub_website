@@ -6,10 +6,17 @@ import { Footer } from '@/components/layout/Footer';
 import { Wrench, ShieldCheck, CheckCircle2, ArrowRight, Clock } from 'lucide-react';
 import { generateGeneralWhatsAppLink, getPhoneNumber } from '@/lib/utils/whatsapp';
 
+import { getSiteUrl } from '@/lib/utils/site-url';
+
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
-  title: 'Mobile Phone Repair Service in Deira, Dubai | SKYHUB DUBAI',
+  title: 'Mobile Phone Repair Service in Deira, Dubai',
   description:
     'Professional mobile phone repair service in Al Rigga, Deira, Dubai. iPhone screen replacement, battery health service, water damage repair, and fast smartphone diagnostics at SKYHUB DUBAI.',
+  alternates: {
+    canonical: `${siteUrl}/services/mobile-phone-repair`,
+  },
   keywords: [
     'Phone repair Dubai',
     'Mobile phone repair Deira',

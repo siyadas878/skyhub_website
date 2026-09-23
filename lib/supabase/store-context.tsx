@@ -8,7 +8,7 @@ const DEFAULT_SETTINGS: StoreSettings = {
   store_name: 'SKYHUB DUBAI',
   phone: '+971 52 336 1092',
   whatsapp_number: '+971 52 336 1092',
-  email: 'info@skyhubdubai.com',
+  email: 'info@skyhubmobi.com',
   address: 'Fish Roundabout, Al Rigga, Deira, Dubai, UAE',
   google_maps_url: 'https://www.google.com/maps?gs_lcrp=EgZjaHJvbWUyBggAEEUYOTILCAEQABgKGAsYgAQyEQgCEC4YChgLGK8BGMcBGIAEMhEIAxAuGAoYCxivARjHARiABDIRCAQQLhgKGAsYrwEYxwEYgAQyCwgFEAAYChgLGIAEMgsIBhAAGAoYCxiABDILCAcQABgKGAsYgAQyEQgIEC4YChgLGK8BGMcBGIAEMgsICRAAGAoYCxiABNIBCTQ0MjlqMGoxNagCCLACAfEF9RSlZbfsCAnxBfUUpWW37AgJ&um=1&ie=UTF-8&fb=1&gl=ae&sa=X&geocode=KXW641OVQ18-MYkYCToW81qZ&daddr=fish+round+boat+-+Fish+Roundabout+-+Al+Rigga+-+Deira+-+Dubai',
   opening_hours: 'Sat - Thu: 10:00 AM - 10:00 PM | Fri: 4:00 PM - 10:00 PM',

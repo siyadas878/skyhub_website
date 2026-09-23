@@ -1,13 +1,28 @@
-'use client';
-
 import React, { Suspense } from 'react';
+import { Metadata } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ProductListingView } from '@/components/products/ProductListingView';
-import { useStore } from '@/lib/supabase/store-context';
+import { fetchProducts } from '@/lib/supabase/queries';
+import { getSiteUrl } from '@/lib/utils/site-url';
 
-function LaptopsContent() {
-  const { products } = useStore();
+const siteUrl = getSiteUrl();
+
+export const metadata: Metadata = {
+  title: 'Laptop & MacBook Shop in Dubai | Apple M3 & Dell XPS',
+  description: 'Buy Apple MacBook Pro M3, MacBook Air, Dell XPS OLED touch laptops & pro workstations with warranty at SKYHUB DUBAI in Al Rigga, Deira.',
+  alternates: {
+    canonical: `${siteUrl}/laptops`,
+  },
+  openGraph: {
+    title: 'Laptop & MacBook Shop in Dubai | SKYHUB DUBAI',
+    description: 'Apple MacBooks, Dell XPS and workstation laptops with official warranty in Deira Dubai.',
+    url: `${siteUrl}/laptops`,
+  },
+};
+
+export default async function LaptopsPage() {
+  const products = await fetchProducts();
 
   const laptopProducts = products.filter(
     (product) =>
@@ -23,25 +38,19 @@ function LaptopsContent() {
   ];
 
   return (
-    <ProductListingView
-      badgeTag="LAPTOPS & MACBOOKS"
-      pageTitle="MacBooks & Windows Laptops"
-      pageSubtitle="Apple M3 Max MacBooks, Dell XPS OLED Touch laptops, and pro workstations in Dubai."
-      products={laptopProducts}
-      categoriesList={categoriesList}
-    />
-  );
-}
-
-export default function LaptopsPage() {
-  return (
-    <div className="min-h-screen flex flex-col bg-[#F8F9FA] text-slate-900">
+    <div className="min-h-screen flex flex-col bg-[#F8F9FA] text-slate-900 font-sans">
       <Navbar />
 
       <main className="flex-1 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          <Suspense fallback={<div className="text-slate-500 text-xs py-10 text-center">Loading laptops inventory...</div>}>
-            <LaptopsContent />
+          <Suspense fallback={<div className="py-10 text-center text-xs text-slate-400">Loading Laptops catalog...</div>}>
+            <ProductListingView
+              badgeTag="LAPTOPS & MACBOOKS"
+              pageTitle="MacBooks & Windows Laptops"
+              pageSubtitle="Apple M3 Max MacBooks, Dell XPS OLED Touch laptops, and pro workstations in Dubai."
+              products={laptopProducts}
+              categoriesList={categoriesList}
+            />
           </Suspense>
         </div>
       </main>
@@ -50,3 +59,4 @@ export default function LaptopsPage() {
     </div>
   );
 }
+

@@ -6,10 +6,17 @@ import { Footer } from '@/components/layout/Footer';
 import { Camera, Wrench, ShieldCheck, ArrowRight } from 'lucide-react';
 import { generateGeneralWhatsAppLink, getPhoneNumber } from '@/lib/utils/whatsapp';
 
+import { getSiteUrl } from '@/lib/utils/site-url';
+
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
-  title: 'Camera Repair Service in Dubai | SKYHUB DUBAI',
+  title: 'Camera Repair Service in Dubai',
   description:
     'Professional camera repair service in Dubai. Expert video camera servicing, lens calibration, sensor cleaning, shutter repair, and motherboard fix at SKYHUB DUBAI in Al Rigga, Deira.',
+  alternates: {
+    canonical: `${siteUrl}/services/camera-repair`,
+  },
   keywords: [
     'Camera repair Dubai',
     'Professional camera repair Dubai',

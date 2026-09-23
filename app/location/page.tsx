@@ -7,10 +7,17 @@ import { BranchesSection } from '@/components/sections/BranchesSection';
 import { MapPin, Phone, Clock, Navigation, CheckCircle2, ArrowRight } from 'lucide-react';
 import { generateGeneralWhatsAppLink, getPhoneNumber } from '@/lib/utils/whatsapp';
 
+import { getSiteUrl } from '@/lib/utils/site-url';
+
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
   title: 'SKYHUB DUBAI – Mobile & Camera Shop in Al Rigga, Deira',
   description:
     'SKYHUB DUBAI is located near Fish Roundabout in Al Rigga, Deira, Dubai, United Arab Emirates. Visit our store for mobile phone sales, phone repair, camera sales & repair, laptop services, and data recovery.',
+  alternates: {
+    canonical: `${siteUrl}/location`,
+  },
   keywords: [
     'SKYHUB DUBAI location',
     'Mobile phone shop in Al Rigga',
@@ -42,7 +49,7 @@ export default function LocationPage() {
       latitude: '25.2677',
       longitude: '55.3134',
     },
-    url: 'https://skyhubdubai.com/location',
+    url: `${siteUrl}/location`,
   };
 
   return (

@@ -6,10 +6,17 @@ import { Footer } from '@/components/layout/Footer';
 import { Camera, ShieldCheck, ArrowRight } from 'lucide-react';
 import { generateGeneralWhatsAppLink, getPhoneNumber } from '@/lib/utils/whatsapp';
 
+import { getSiteUrl } from '@/lib/utils/site-url';
+
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
-  title: 'Camera Shop in Dubai | Photography & Video Gear | SKYHUB DUBAI',
+  title: 'Camera Shop in Dubai | Photography & Video Gear',
   description:
     'SKYHUB DUBAI is a premier camera shop in Al Rigga, Deira, Dubai. We supply DSLR, mirrorless cameras, lenses, DJI drones, vlogging gear, and camera accessories.',
+  alternates: {
+    canonical: `${siteUrl}/services/camera`,
+  },
   keywords: [
     'Camera shop Dubai',
     'Camera accessories Dubai',

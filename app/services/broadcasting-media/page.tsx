@@ -6,10 +6,17 @@ import { Footer } from '@/components/layout/Footer';
 import { Radio, Video, ArrowRight } from 'lucide-react';
 import { generateGeneralWhatsAppLink, getPhoneNumber } from '@/lib/utils/whatsapp';
 
+import { getSiteUrl } from '@/lib/utils/site-url';
+
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
-  title: 'Broadcasting & Media Solutions in Dubai | SKYHUB DUBAI',
+  title: 'Broadcasting & Media Solutions in Dubai',
   description:
     'Broadcasting equipment, live stream video gear, SDI/HDMI switchers, wireless transmitters, and pro studio media solutions in Dubai at SKYHUB DUBAI.',
+  alternates: {
+    canonical: `${siteUrl}/services/broadcasting-media`,
+  },
   keywords: [
     'Broadcasting equipment Dubai',
     'Live streaming gear Dubai',

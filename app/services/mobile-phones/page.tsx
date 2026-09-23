@@ -6,10 +6,17 @@ import { Footer } from '@/components/layout/Footer';
 import { Phone, ShieldCheck, CheckCircle2, ArrowRight, MapPin, Clock, Star } from 'lucide-react';
 import { generateGeneralWhatsAppLink, getPhoneNumber } from '@/lib/utils/whatsapp';
 
+import { getSiteUrl } from '@/lib/utils/site-url';
+
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
-  title: 'Mobile Phone Shop in Dubai | Sales & Services | SKYHUB DUBAI',
+  title: 'Mobile Phone Shop in Dubai | Sales & Services',
   description:
     'SKYHUB DUBAI is your premier mobile phone shop in Al Rigga, Deira, Dubai. We sell brand new & certified pre-owned iPhones, Samsung Galaxy, and offer mobile phone repair services.',
+  alternates: {
+    canonical: `${siteUrl}/services/mobile-phones`,
+  },
   keywords: [
     'Mobile phone shop in Dubai',
     'Mobile phone shop in Deira',

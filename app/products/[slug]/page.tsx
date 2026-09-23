@@ -1,65 +1,120 @@
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
-import { useParams, notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ImageGallery } from '@/components/products/ImageGallery';
 import { ConditionBadge } from '@/components/products/ConditionBadge';
 import { ProductCard } from '@/components/products/ProductCard';
-import { useStore } from '@/lib/supabase/store-context';
+import { fetchProductBySlug, fetchProducts } from '@/lib/supabase/queries';
 import { formatAED } from '@/lib/utils/currency';
 import { generateProductWhatsAppLink, getPhoneNumber } from '@/lib/utils/whatsapp';
+import { getSiteUrl } from '@/lib/utils/site-url';
 import {
-  MessageCircle,
   Phone,
   ShieldCheck,
   CheckCircle2,
   MapPin,
   Clock,
-  Sparkles,
   ChevronRight,
-  Info,
   Star,
-  ArrowRight,
-  Loader2
+  ArrowRight
 } from 'lucide-react';
 
-export default function ProductDetailPage() {
-  const params = useParams();
-  const slug = params.slug as string;
+interface Props {
+  params: Promise<{ slug: string }>;
+}
 
-  const { products, loading } = useStore();
-  const product = products.find((p) => p.slug === slug);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await fetchProductBySlug(slug);
+  const siteUrl = getSiteUrl();
 
-  if (loading && !product) {
-    return (
-      <div className="min-h-screen flex flex-col bg-[#F8F9FA]">
-        <Navbar />
-        <main className="flex-1 flex items-center justify-center py-20">
-          <Loader2 className="w-8 h-8 text-[#EA3829] animate-spin" />
-        </main>
-        <Footer />
-      </div>
-    );
+  if (!product) {
+    return {
+      title: 'Product Not Found',
+    };
   }
+
+  const title = `${product.name} - Price & Specs in Dubai`;
+  const description = `${product.name} available at SKYHUB DUBAI for ${formatAED(product.price)}. ${product.description || 'Authentic hardware thoroughly tested with warranty.'}`;
+  const canonicalUrl = `${siteUrl}/products/${product.slug}`;
+  const primaryImage = product.images?.[0]?.image_url || product.image_url || `${siteUrl}/fav_icon.png`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: `${product.name} | SKYHUB DUBAI`,
+      description,
+      url: canonicalUrl,
+      images: [{ url: primaryImage, alt: product.name }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} | SKYHUB DUBAI`,
+      description,
+      images: [primaryImage],
+    },
+  };
+}
+
+export default async function ProductDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const product = await fetchProductBySlug(slug);
 
   if (!product) {
     return notFound();
   }
 
+  const siteUrl = getSiteUrl();
+  const allProducts = await fetchProducts();
   const phone = getPhoneNumber();
   const whatsappLink = generateProductWhatsAppLink(product);
 
-  const relatedProducts = products.filter(
+  const relatedProducts = allProducts.filter(
     (p) => p.id !== product.id && (p.category_id === product.category_id || p.brand_id === product.brand_id)
   ).slice(0, 3);
 
   const specsEntries = Object.entries(product.specifications || {});
 
+  const productJsonLd = {
+    '@context': 'https://schema.org/',
+    '@type': 'Product',
+    name: product.name,
+    image: product.images && product.images.length > 0
+      ? product.images.map((i) => i.image_url)
+      : [product.image_url || `${siteUrl}/fav_icon.png`],
+    description: product.description || 'Authentic hardware thoroughly tested with 35-point quality assurance and official warranty support.',
+    sku: product.sku || product.id,
+    brand: {
+      '@type': 'Brand',
+      name: product.brand?.name || 'SKYHUB DUBAI',
+    },
+    offers: {
+      '@type': 'Offer',
+      url: `${siteUrl}/products/${product.slug}`,
+      priceCurrency: 'AED',
+      price: product.price,
+      availability: product.is_available ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      itemCondition: product.condition === 'New' ? 'https://schema.org/NewCondition' : 'https://schema.org/UsedCondition',
+      seller: {
+        '@type': 'Organization',
+        name: 'SKYHUB DUBAI',
+      },
+    },
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8F9FA] text-slate-900">
+    <div className="min-h-screen flex flex-col bg-[#F8F9FA] text-slate-900 font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       <Navbar />
 
       <main className="flex-1 py-8">
@@ -74,7 +129,7 @@ export default function ProductDetailPage() {
             <span className="text-slate-800 font-bold truncate max-w-xs">{product.name}</span>
           </nav>
 
-          {/* Product Detail Main Grid (ORRIS Layout) */}
+          {/* Product Detail Main Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             
             {/* Left Column: Soft Image Box & Gallery (6 cols) */}
@@ -126,7 +181,7 @@ export default function ProductDetailPage() {
                 <span className="text-xs text-slate-400 font-normal">Excl. VAT</span>
               </div>
 
-              {/* Black / Red CTA Pill Button (ORRIS Style with Circular Arrow) */}
+              {/* CTA Pill Buttons */}
               <div className="space-y-3 pt-2">
                 <a
                   href={whatsappLink}
@@ -135,7 +190,7 @@ export default function ProductDetailPage() {
                   className="w-full bg-[#0B0F19] hover:bg-[#EA3829] text-white font-bold text-xs uppercase tracking-wider py-4 px-6 rounded-full flex items-center justify-between shadow-lg transition-all duration-300 group"
                 >
                   <div className="flex items-center space-x-2">
-                    <img src="/whatsapp.svg" alt="WhatsApp" className="w-5 h-5 shrink-0" />
+                    <img src="/whatsapp.svg" alt="WhatsApp" width={20} height={20} className="w-5 h-5 shrink-0" />
                     <span>Inquire & Buy via WhatsApp</span>
                   </div>
                   <div className="w-7 h-7 rounded-full bg-white/20 group-hover:bg-white text-white group-hover:text-[#EA3829] flex items-center justify-center transition-colors">
@@ -153,7 +208,7 @@ export default function ProductDetailPage() {
                   </a>
 
                   <a
-                    href="https://maps.google.com/?q=Al+Khaleej+Centre+Bur+Dubai"
+                    href="https://maps.google.com/?q=Fish+Roundabout+Al+Rigga+Deira+Dubai"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs py-3 px-4 rounded-xl flex items-center justify-center space-x-2 transition-colors shadow-sm"
@@ -164,7 +219,7 @@ export default function ProductDetailPage() {
                 </div>
               </div>
 
-              {/* Product Information Accordion (ORRIS Specs Grid) */}
+              {/* Product Specifications */}
               <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
                 <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-3">
                   Product Specifications
@@ -217,7 +272,7 @@ export default function ProductDetailPage() {
 
           </div>
 
-          {/* Testimonial Section ("What Customers Are Saying" from ORRIS mockup) */}
+          {/* Testimonial Section */}
           <div className="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-sm space-y-6">
             <div className="flex items-center justify-between">
               <div>
@@ -245,7 +300,7 @@ export default function ProductDetailPage() {
                   role: "Verified Buyer • Business Bay",
                 },
                 {
-                  quote: "Excellent pricing for official DJI drones and accessories. The store staff at Al Khaleej Centre Bur Dubai were very helpful.",
+                  quote: "Excellent pricing for official DJI drones and accessories. The store staff at Fish Roundabout Deira Dubai were very helpful.",
                   name: "Sarah Jenkins",
                   role: "Verified Buyer • JBR",
                 },
@@ -268,7 +323,7 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Related Products Section ("More Products You Might Like" from ORRIS mockup) */}
+          {/* Related Products Section */}
           {relatedProducts.length > 0 && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
@@ -302,4 +357,5 @@ export default function ProductDetailPage() {
     </div>
   );
 }
+
 

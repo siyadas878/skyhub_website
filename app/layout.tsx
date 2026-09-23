@@ -1,9 +1,15 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { StoreProvider } from '@/lib/supabase/store-context';
+import { getSiteUrl } from '@/lib/utils/site-url';
+
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://skyhubdubai.com'),
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: siteUrl,
+  },
   title: {
     default: 'Mobile Phone & Camera Shop in Dubai | SKYHUB DUBAI',
     template: '%s | SKYHUB DUBAI',
@@ -37,13 +43,13 @@ export const metadata: Metadata = {
     title: 'SKYHUB DUBAI | Mobile Phones, Cameras & Computer Services',
     description:
       'Mobile phones, camera repair, laptop services, data recovery, broadcasting and media solutions in Al Rigga, Deira, Dubai.',
-    url: 'https://skyhubdubai.com',
+    url: siteUrl,
     siteName: 'SKYHUB DUBAI',
     locale: 'en_AE',
     type: 'website',
     images: [
       {
-        url: '/fav_icon.png',
+        url: `${siteUrl}/fav_icon.png`,
         width: 1200,
         height: 630,
         alt: 'SKYHUB DUBAI - Mobile Phone & Camera Shop Deira Dubai',
@@ -55,7 +61,7 @@ export const metadata: Metadata = {
     title: 'SKYHUB DUBAI | Mobile Phones, Cameras & Computer Services',
     description:
       'Mobile phones, phone repair, camera sales & service, laptop repair, data recovery in Al Rigga, Deira, Dubai.',
-    images: ['/fav_icon.png'],
+    images: [`${siteUrl}/fav_icon.png`],
   },
   robots: {
     index: true,
@@ -91,7 +97,7 @@ export default function RootLayout({
       latitude: '25.2677',
       longitude: '55.3134',
     },
-    url: 'https://skyhubdubai.com',
+    url: siteUrl,
     sameAs: [
       'https://www.facebook.com/p/skysbuy-100054198354444',
       'https://www.instagram.com/sky_hub_official/',

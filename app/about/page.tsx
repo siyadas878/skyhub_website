@@ -1,11 +1,21 @@
-'use client';
-
 import React from 'react';
+import { Metadata } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { BranchesSection } from '@/components/sections/BranchesSection';
-import { Sparkles, ShieldCheck, Award, MapPin, MessageCircle, Phone } from 'lucide-react';
+import { ShieldCheck, Award, MapPin, MessageCircle, Phone } from 'lucide-react';
 import { generateGeneralWhatsAppLink, getPhoneNumber } from '@/lib/utils/whatsapp';
+import { getSiteUrl } from '@/lib/utils/site-url';
+
+const siteUrl = getSiteUrl();
+
+export const metadata: Metadata = {
+  title: 'About SkyHub Media UAE | Trusted Tech Store in Dubai',
+  description: 'Learn about SKYHUB DUBAI - UAE\'s trusted destination for smartphones, MacBooks, camera gear, and repair services in Al Rigga, Deira.',
+  alternates: {
+    canonical: `${siteUrl}/about`,
+  },
+};
 
 export default function AboutPage() {
   const phone = getPhoneNumber();

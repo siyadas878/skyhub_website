@@ -6,10 +6,17 @@ import { Footer } from '@/components/layout/Footer';
 import { Laptop, Wrench, ArrowRight } from 'lucide-react';
 import { generateGeneralWhatsAppLink, getPhoneNumber } from '@/lib/utils/whatsapp';
 
+import { getSiteUrl } from '@/lib/utils/site-url';
+
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
-  title: 'Laptop & Computer Repair Service in Dubai | SKYHUB DUBAI',
+  title: 'Laptop & Computer Repair Service in Dubai',
   description:
     'Expert laptop repair, MacBook motherboard service, screen replacement, and computer service in Al Rigga, Deira, Dubai at SKYHUB DUBAI.',
+  alternates: {
+    canonical: `${siteUrl}/services/laptop-computer`,
+  },
   keywords: [
     'Laptop repair Dubai',
     'Computer repair Dubai',

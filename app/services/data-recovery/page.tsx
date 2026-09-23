@@ -6,10 +6,17 @@ import { Footer } from '@/components/layout/Footer';
 import { HardDrive, ShieldCheck, ArrowRight } from 'lucide-react';
 import { generateGeneralWhatsAppLink, getPhoneNumber } from '@/lib/utils/whatsapp';
 
+import { getSiteUrl } from '@/lib/utils/site-url';
+
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
-  title: 'Data Recovery Service in Dubai | Hard Drive & SSD | SKYHUB DUBAI',
+  title: 'Data Recovery Service in Dubai | Hard Drive & SSD',
   description:
     'Professional data recovery service in Al Rigga, Deira, Dubai. Recover lost photos, video files, corrupted hard drives, SSDs, SD cards, and mobile phone storage at SKYHUB DUBAI.',
+  alternates: {
+    canonical: `${siteUrl}/services/data-recovery`,
+  },
   keywords: [
     'Data recovery Dubai',
     'Data recovery service Dubai',

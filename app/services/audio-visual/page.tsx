@@ -6,10 +6,17 @@ import { Footer } from '@/components/layout/Footer';
 import { Volume2, Mic, ArrowRight } from 'lucide-react';
 import { generateGeneralWhatsAppLink, getPhoneNumber } from '@/lib/utils/whatsapp';
 
+import { getSiteUrl } from '@/lib/utils/site-url';
+
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
-  title: 'Audio-Visual Equipment Supplier in Dubai | SKYHUB DUBAI',
+  title: 'Audio-Visual Equipment Supplier in Dubai',
   description:
     'Audio-visual equipment supplier in Al Rigga, Deira, Dubai. Wireless microphones, studio monitors, LED video walls, and AV solutions at SKYHUB DUBAI.',
+  alternates: {
+    canonical: `${siteUrl}/services/audio-visual`,
+  },
   keywords: [
     'Audio visual equipment Dubai',
     'Audio visual supplier Dubai',

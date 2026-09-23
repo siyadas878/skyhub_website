@@ -1,8 +1,9 @@
 import { MetadataRoute } from 'next';
 import { fetchProducts } from '@/lib/supabase/queries';
+import { getSiteUrl } from '@/lib/utils/site-url';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://skyhubdubai.com';
+  const baseUrl = getSiteUrl();
   const products = await fetchProducts();
 
   const productUrls = products.map((product) => ({
