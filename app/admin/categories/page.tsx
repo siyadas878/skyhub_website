@@ -16,6 +16,7 @@ export default function AdminCategoriesPage() {
   // References for file uploads
   const newCatFileInputRef = useRef<HTMLInputElement>(null);
   const [updatingCatId, setUpdatingCatId] = useState<string | null>(null);
+  const updatingCatIdRef = useRef<string | null>(null);
   const editCatFileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = async (file: File): Promise<string | null> => {
@@ -49,15 +50,17 @@ export default function AdminCategoriesPage() {
   };
 
   const handleEditCatFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const targetCatId = updatingCatIdRef.current || updatingCatId;
     const files = e.target.files;
-    if (!files || files.length === 0 || !updatingCatId) return;
+    if (!files || files.length === 0 || !targetCatId) return;
     setUploading(true);
     const url = await handleFileUpload(files[0]);
     if (url) {
-      await updateCategory(updatingCatId, { image_url: url });
+      await updateCategory(targetCatId, { image_url: url });
       alert('Category image updated live!');
     }
     setUploading(false);
+    updatingCatIdRef.current = null;
     setUpdatingCatId(null);
   };
 
@@ -234,6 +237,7 @@ export default function AdminCategoriesPage() {
                       <button
                         type="button"
                         onClick={() => {
+                          updatingCatIdRef.current = cat.id;
                           setUpdatingCatId(cat.id);
                           editCatFileInputRef.current?.click();
                         }}

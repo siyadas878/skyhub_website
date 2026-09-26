@@ -14,10 +14,13 @@ export default function AdminHomepageManager() {
   const [uploadingField, setUploadingField] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const uploadingFieldRef = useRef<string | null>(null);
+  const isInitializedRef = useRef(false);
 
   useEffect(() => {
-    if (homepageSettings && homepageSettings.hero_title) {
+    if (homepageSettings && homepageSettings.hero_title && !isInitializedRef.current) {
       setForm(homepageSettings);
+      isInitializedRef.current = true;
     }
   }, [homepageSettings]);
 
@@ -39,6 +42,7 @@ export default function AdminHomepageManager() {
 
   // Device File Upload handler for banner images
   const triggerFileUpload = (fieldName: string) => {
+    uploadingFieldRef.current = fieldName;
     setUploadingField(fieldName);
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -46,10 +50,12 @@ export default function AdminHomepageManager() {
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const targetField = uploadingFieldRef.current || uploadingField;
     const files = e.target.files;
-    if (!files || files.length === 0 || !uploadingField) return;
+    if (!files || files.length === 0 || !targetField) return;
 
     try {
+      setUploadingField(targetField);
       const formData = new FormData();
       formData.append('files', files[0]);
 
@@ -59,13 +65,14 @@ export default function AdminHomepageManager() {
       });
       const data = await res.json();
       if (res.ok && data.urls && data.urls[0]) {
-        handleChange(uploadingField as any, data.urls[0]);
+        handleChange(targetField as any, data.urls[0]);
       } else {
         alert(data.error || 'Failed to upload image');
       }
     } catch (err: any) {
       alert(`Upload error: ${err.message}`);
     } finally {
+      uploadingFieldRef.current = null;
       setUploadingField(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
     }

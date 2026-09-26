@@ -24,17 +24,17 @@ export const metadata: Metadata = {
 export default async function MobilesPage() {
   const products = await fetchProducts();
 
+  // Strict Mobile Phones Category Filter
   const mobileProducts = products.filter(
     (product) =>
-      product.category_id === 'cat-mobiles' ||
-      product.category_id === 'c1000000-0000-0000-0000-000000000001' ||
-      product.slug.includes('iphone') ||
-      product.slug.includes('samsung')
+      product.category?.slug === 'mobiles' ||
+      product.category_id === 'c1000000-0000-0000-0000-000000000002'
   );
 
   const categoriesList = [
-    { id: 'apple', name: 'Apple (iPhone)', count: mobileProducts.filter((p) => p.slug.includes('iphone') || p.brand?.slug === 'apple').length },
-    { id: 'samsung', name: 'Samsung Galaxy', count: mobileProducts.filter((p) => p.slug.includes('samsung') || p.brand?.slug === 'samsung').length },
+    { id: 'apple', name: 'Apple (iPhone)', count: mobileProducts.filter((p) => p.brand?.slug === 'apple').length },
+    { id: 'samsung', name: 'Samsung Galaxy', count: mobileProducts.filter((p) => p.brand?.slug === 'samsung').length },
+    { id: 'google', name: 'Google Pixel', count: mobileProducts.filter((p) => p.brand?.slug === 'google').length },
   ];
 
   return (
@@ -47,7 +47,7 @@ export default async function MobilesPage() {
             <ProductListingView
               badgeTag="MOBILE PHONES"
               pageTitle="Smartphones & Mobile Devices"
-              pageSubtitle="Browse premium new and quality-guaranteed pre-owned iPhones and Samsung Galaxy devices."
+              pageSubtitle="Browse premium new and quality-guaranteed pre-owned iPhones, Samsung Galaxy, and Google Pixel devices."
               products={mobileProducts}
               categoriesList={categoriesList}
             />
@@ -59,5 +59,3 @@ export default async function MobilesPage() {
     </div>
   );
 }
-
-

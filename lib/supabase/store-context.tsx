@@ -3,6 +3,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product, Category, Brand, StoreSettings, ProductInquiry, HomepageSettings } from '@/types';
 
+import { getPublicStorageUrl } from './storage';
+
 const DEFAULT_SETTINGS: StoreSettings = {
   id: 'e1000000-0000-0000-0000-000000000001',
   store_name: 'SKYHUB DUBAI',
@@ -20,18 +22,18 @@ const DEFAULT_SETTINGS: StoreSettings = {
 
 const DEFAULT_HOMEPAGE_SETTINGS: HomepageSettings = {
   id: 'h1000000-0000-0000-0000-000000000001',
-  hero_badge: '• FLAGSHIP TECHNOLOGY • DUBAI',
-  hero_title: 'Redefining Everyday Tech',
-  hero_subtitle: "Experience Dubai's top rated collection of brand new & pre-owned iPhones, MacBooks, Samsung Galaxy Ultra, and pro accessories with guaranteed battery health.",
-  hero_primary_button_text: 'Shop Now',
-  hero_primary_button_url: '/mobiles',
+  hero_badge: '• PRO BUSINESS LAPTOP • SPECIAL DUBAI OFFER',
+  hero_title: 'Dell Latitude 5480 Core i5 Workstation',
+  hero_subtitle: 'Supercharged for business & everyday tasks with Intel Core i5 6th Gen, 8GB DDR4 RAM, fast 256GB SSD, and 14-inch display. 35-Point Quality Verified in Dubai.',
+  hero_primary_button_text: 'Shop Dell Latitude 5480',
+  hero_primary_button_url: '/products/dell-latitude-5480-i5-6th-gen-8gb-256gb-ssd-used',
   hero_secondary_button_text: 'WhatsApp Inquiry',
   hero_rating_text: '4.9 ★ Rating',
   hero_rating_subtext: 'Over 2,500+ Verified Buyers in UAE',
-  hero_image_url: 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/iphone-15-pro-max.png',
+  hero_image_url: getPublicStorageUrl('products/dell-latitude-5480.jpg'),
 
   best_picks_title: 'Best Picks For You',
-  main_featured_product_id: 'a1000000-0000-0000-0000-000000000001',
+  main_featured_product_id: 'a1000000-0000-0000-0000-000000000099',
   secondary_featured_product_ids: [
     'a1000000-0000-0000-0000-000000000003',
     'a1000000-0000-0000-0000-000000000002',
@@ -44,28 +46,28 @@ const DEFAULT_HOMEPAGE_SETTINGS: HomepageSettings = {
   banner1_subtitle: 'Powered by Galaxy AI, 200MP camera technology, built-in S-Pen, and 12GB RAM for ultimate productivity.',
   banner1_button_text: 'Explore Samsung Line-up',
   banner1_button_url: '/mobiles?brand=samsung',
-  banner1_image_url: 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/samsung-s24-ultra.png',
+  banner1_image_url: getPublicStorageUrl('products/samsung-s24-ultra.png'),
 
   promo_left_badge: 'Drone & Fast Power',
   promo_left_title: 'DJI Drones & High-Speed Chargers',
   promo_left_subtitle: 'Flagship DJI Mini 4 Pro 4K HDR drones and 200W high-speed power stations.',
   promo_left_button_text: 'Shop Accessories',
   promo_left_button_url: '/accessories',
-  promo_left_image_url: 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/dji-mini-4-pro.png',
+  promo_left_image_url: getPublicStorageUrl('products/dji-mini-4-pro.png'),
 
   promo_right_badge: 'M3 Max Performance',
   promo_right_title: 'Apple MacBook Pro 16-inch',
   promo_right_subtitle: 'Extreme performance 36GB / 1TB workstation with Liquid Retina XDR display.',
   promo_right_button_text: 'Shop Workstations',
   promo_right_button_url: '/laptops',
-  promo_right_image_url: 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/macbook-pro-16.png',
+  promo_right_image_url: getPublicStorageUrl('products/macbook-pro-16.png'),
 
   banner2_badge: 'Official Apple Showcase',
   banner2_title: 'Celebrate the Season with iPhone 15 Pro Max',
   banner2_subtitle: 'Grade A+ Pre-Owned & Sealed devices with 35-point testing guarantee and instant store pickup in Bur Dubai.',
   banner2_button_text: 'Shop iPhones',
   banner2_button_url: '/mobiles?brand=apple',
-  banner2_image_url: 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/iphone-15-pro-max.png',
+  banner2_image_url: getPublicStorageUrl('products/iphone-15-pro-max.png'),
 
   deals_title: 'Great Deals',
   deals_product_ids: [

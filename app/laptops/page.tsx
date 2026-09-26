@@ -24,17 +24,18 @@ export const metadata: Metadata = {
 export default async function LaptopsPage() {
   const products = await fetchProducts();
 
+  // Strict Laptops Category Filter
   const laptopProducts = products.filter(
     (product) =>
-      product.category_id === 'cat-laptops' ||
-      product.category_id === 'c1000000-0000-0000-0000-000000000002' ||
-      product.slug.includes('macbook') ||
-      product.slug.includes('dell')
+      product.category?.slug === 'laptops' ||
+      product.category_id === 'c1000000-0000-0000-0000-000000000001'
   );
 
   const categoriesList = [
-    { id: 'apple', name: 'Apple MacBook Pro & Air', count: laptopProducts.filter((p) => p.slug.includes('macbook') || p.brand?.slug === 'apple').length },
-    { id: 'dell', name: 'Dell XPS & Workstations', count: laptopProducts.filter((p) => p.slug.includes('dell') || p.brand?.slug === 'dell').length },
+    { id: 'apple', name: 'Apple MacBook Pro & Air', count: laptopProducts.filter((p) => p.brand?.slug === 'apple').length },
+    { id: 'dell', name: 'Dell XPS & Latitude Workstations', count: laptopProducts.filter((p) => p.brand?.slug === 'dell').length },
+    { id: 'lenovo', name: 'Lenovo ThinkPad', count: laptopProducts.filter((p) => p.brand?.slug === 'lenovo').length },
+    { id: 'asus', name: 'ASUS ROG Gaming', count: laptopProducts.filter((p) => p.brand?.slug === 'asus').length },
   ];
 
   return (
@@ -47,7 +48,7 @@ export default async function LaptopsPage() {
             <ProductListingView
               badgeTag="LAPTOPS & MACBOOKS"
               pageTitle="MacBooks & Windows Laptops"
-              pageSubtitle="Apple M3 Max MacBooks, Dell XPS OLED Touch laptops, and pro workstations in Dubai."
+              pageSubtitle="Apple M3 Max MacBooks, Dell XPS OLED Touch laptops, ThinkPads, and pro workstations in Dubai."
               products={laptopProducts}
               categoriesList={categoriesList}
             />
@@ -59,4 +60,3 @@ export default async function LaptopsPage() {
     </div>
   );
 }
-

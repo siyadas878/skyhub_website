@@ -1,15 +1,6 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://lxryqeomeomssenymqdp.supabase.co';
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-function getAdminClient() {
-  if (!serviceRoleKey) {
-    throw new Error('SUPABASE_SERVICE_ROLE_KEY is missing');
-  }
-  return createClient(supabaseUrl, serviceRoleKey);
-}
+import { getAdminClient } from '@/lib/supabase/admin';
+import { deleteStorageFilesByUrls } from '@/lib/supabase/storage';
 
 export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
   try {
@@ -37,6 +28,22 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
         : null;
 
     if (urls) {
+      // Find old image URLs that are being replaced or removed
+      const { data: oldImgs } = await supabase
+        .from('product_images')
+        .select('image_url')
+        .eq('product_id', id);
+
+      if (oldImgs && oldImgs.length > 0) {
+        const removedUrls = oldImgs
+          .map((i) => i.image_url)
+          .filter((oldUrl) => !urls.includes(oldUrl));
+
+        if (removedUrls.length > 0) {
+          await deleteStorageFilesByUrls(removedUrls, supabase);
+        }
+      }
+
       await supabase.from('product_images').delete().eq('product_id', id);
       const imgPayload = urls.map((url: string, index: number) => ({
         product_id: id,
@@ -58,10 +65,21 @@ export async function DELETE(req: Request, context: { params: Promise<{ id: stri
     const { id } = await context.params;
     const supabase = getAdminClient();
 
-    // Delete product images first
+    // Fetch associated product images to clean up files from Supabase Storage
+    const { data: existingImgs } = await supabase
+      .from('product_images')
+      .select('image_url')
+      .eq('product_id', id);
+
+    if (existingImgs && existingImgs.length > 0) {
+      const urlsToDelete = existingImgs.map((img) => img.image_url).filter(Boolean);
+      await deleteStorageFilesByUrls(urlsToDelete, supabase);
+    }
+
+    // Delete product images DB records first
     await supabase.from('product_images').delete().eq('product_id', id);
 
-    // Delete product
+    // Delete product DB record
     const { error } = await supabase.from('products').delete().eq('id', id);
 
     if (error) {

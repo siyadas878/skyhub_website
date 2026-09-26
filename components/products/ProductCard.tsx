@@ -18,7 +18,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const primaryImage =
     product.images && product.images.length > 0
       ? product.images.find((img) => img.is_primary)?.image_url || product.images[0].image_url
-      : 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/iphone-15-pro-max.png';
+      : '/products/dell-latitude-5480.jpg';
 
   const hasDiscount = Boolean(product.original_price && product.original_price > product.price);
   const whatsappUrl = generateProductWhatsAppLink(product);

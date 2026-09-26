@@ -82,6 +82,7 @@ async function executeWipeAndReseed() {
       console.error(`Failed to upload ${targetName}:`, uploadErr.message);
     } else {
       const { data: publicUrlData } = supabase.storage.from(bucketName).getPublicUrl(storagePath);
+      // Attach version query param to bypass all CDN and browser caches
       uploadedUrls[targetName] = `${publicUrlData.publicUrl}?v=${versionTag}`;
       console.log(`✅ Uploaded ${targetName} -> ${uploadedUrls[targetName]}`);
     }

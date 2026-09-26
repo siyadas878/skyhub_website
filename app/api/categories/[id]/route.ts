@@ -1,21 +1,25 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://lxryqeomeomssenymqdp.supabase.co';
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-function getAdminClient() {
-  if (!serviceRoleKey) {
-    throw new Error('SUPABASE_SERVICE_ROLE_KEY is missing');
-  }
-  return createClient(supabaseUrl, serviceRoleKey);
-}
+import { getAdminClient } from '@/lib/supabase/admin';
+import { deleteStorageFilesByUrls } from '@/lib/supabase/storage';
 
 export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params;
     const body = await req.json();
     const supabase = getAdminClient();
+
+    // If image_url is being updated, check if old image should be cleaned up from Storage
+    if (body.image_url) {
+      const { data: oldCat } = await supabase
+        .from('categories')
+        .select('image_url')
+        .eq('id', id)
+        .maybeSingle();
+
+      if (oldCat?.image_url && oldCat.image_url !== body.image_url) {
+        await deleteStorageFilesByUrls(oldCat.image_url, supabase);
+      }
+    }
 
     const { data, error } = await supabase
       .from('categories')
@@ -38,6 +42,16 @@ export async function DELETE(req: Request, context: { params: Promise<{ id: stri
   try {
     const { id } = await context.params;
     const supabase = getAdminClient();
+
+    const { data: oldCat } = await supabase
+      .from('categories')
+      .select('image_url')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (oldCat?.image_url) {
+      await deleteStorageFilesByUrls(oldCat.image_url, supabase);
+    }
 
     const { error } = await supabase.from('categories').delete().eq('id', id);
 

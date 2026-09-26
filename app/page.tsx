@@ -25,20 +25,20 @@ export default function HomePage() {
 
   const categoriesOverview = categories.length > 0
     ? categories.slice(0, 4).map((cat) => {
-        const count = products.filter((p) => p.category_id === cat.id).length;
-        return {
-          name: cat.name,
-          count: `${count} Items Available`,
-          href: `/${cat.slug}`,
-          image: cat.image_url || 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/iphone-15-pro-max.png'
-        };
-      })
+      const count = products.filter((p) => p.category_id === cat.id).length;
+      return {
+        name: cat.name,
+        count: `${count} Items Available`,
+        href: `/${cat.slug}`,
+        image: cat.image_url || '/products/iphone-15-pro-max.png'
+      };
+    })
     : [
-        { name: 'Mobile Phones', count: `${products.filter(p => p.category?.slug === 'mobiles' || p.category_id === 'c1000000-0000-0000-0000-000000000001').length || 12} Models Available`, href: '/mobiles', image: 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/iphone-15-pro-max.png' },
-        { name: 'Laptops & MacBooks', count: `${products.filter(p => p.category?.slug === 'laptops' || p.category_id === 'c1000000-0000-0000-0000-000000000002').length || 8} Models Available`, href: '/laptops', image: 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/macbook-pro-16.png' },
-        { name: 'Accessories & Drones', count: `${products.filter(p => p.category?.slug === 'accessories' || p.category_id === 'c1000000-0000-0000-0000-000000000003').length || 15} Items Available`, href: '/accessories', image: 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/dji-mini-4-pro.png' },
-        { name: 'Pre-Owned Devices', count: '35-Point Verified', href: '/mobiles?condition=Used', image: 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/samsung-s24-ultra.png' },
-      ];
+      { name: 'Mobile Phones', count: `${products.filter(p => p.category?.slug === 'mobiles' || p.category_id === 'c1000000-0000-0000-0000-000000000001').length || 12} Models Available`, href: '/mobiles', image: '/products/iphone-15-pro-max.png' },
+      { name: 'Laptops & MacBooks', count: `${products.filter(p => p.category?.slug === 'laptops' || p.category_id === 'c1000000-0000-0000-0000-000000000002').length || 8} Models Available`, href: '/laptops', image: '/products/macbook-pro-16.png' },
+      { name: 'Accessories & Drones', count: `${products.filter(p => p.category?.slug === 'accessories' || p.category_id === 'c1000000-0000-0000-0000-000000000003').length || 15} Items Available`, href: '/accessories', image: '/products/dji-mini-4-pro.png' },
+      { name: 'Pre-Owned Devices', count: '35-Point Verified', href: '/mobiles?condition=Used', image: '/products/samsung-s24-ultra.png' },
+    ];
 
   // Derive dynamic Bento products
   const mainFeaturedProduct = products.find((p) => p.id === homepageSettings?.main_featured_product_id) || products[0];
@@ -65,13 +65,13 @@ export default function HomePage() {
       <Navbar />
 
       <main className="flex-1 space-y-16 py-8">
-        
+
         {/* ========================================================================= */}
         {/* SECTION 1: MODERN SPLIT HERO (Dynamic from Admin) */}
         {/* ========================================================================= */}
         <section className="max-w-7xl mx-auto px-4 sm:px-8">
           <div className="bg-white rounded-3xl p-8 sm:p-14 border border-slate-200/80 shadow-sm relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            
+
             {/* Left Hero Column */}
             <div className="lg:col-span-7 space-y-6">
               <span className="text-[11px] font-bold text-[#EA3829] tracking-widest uppercase flex items-center space-x-2">
@@ -137,7 +137,7 @@ export default function HomePage() {
             <div className="lg:col-span-5 relative flex items-center justify-center">
               <div className="relative aspect-square w-full max-w-md bg-[#0B0F19] rounded-3xl border border-slate-800 shadow-xl overflow-hidden group">
                 <Image
-                  src={homepageSettings?.hero_image_url || 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/iphone-15-pro-max.png'}
+                  src={homepageSettings?.hero_image_url || '/products/dell-latitude-5480.jpg'}
                   alt="Hero Feature"
                   fill
                   className="object-cover scale-[1.03] group-hover:scale-108 transition-transform duration-500"
@@ -176,35 +176,38 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
+
             {/* Bento Card 1 (Tall Left Feature Card) */}
             {mainFeaturedProduct && (
-              <div className="lg:col-span-5 bg-[#0B0F19] text-white rounded-3xl p-8 relative overflow-hidden flex flex-col justify-between min-h-[380px] shadow-xl group border border-slate-800">
+              <div className="lg:col-span-5 bg-[#0B0F19] text-white rounded-3xl p-6 sm:p-7 relative overflow-hidden flex flex-col justify-between shadow-xl group border border-slate-800/80">
                 <div className="relative z-10 space-y-2">
-                  <span className="text-[10px] font-bold uppercase tracking-widest bg-[#EA3829] px-2.5 py-1 rounded-full text-white inline-block">
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest bg-[#EA3829] px-3 py-1 rounded-full text-white inline-block shadow-md">
                     Flagship Item
                   </span>
-                  <h3 className="text-2xl font-black">{mainFeaturedProduct.name}</h3>
-                  <p className="text-xs text-slate-300">
+                  <h3 className="text-2xl sm:text-3xl font-black leading-tight tracking-tight">
+                    {mainFeaturedProduct.name}
+                  </h3>
+                  <p className="text-xs text-slate-400 font-medium">
                     {mainFeaturedProduct.condition} • {mainFeaturedProduct.sku || 'Official Store Stock'}
                   </p>
-                  <p className="text-xl font-black text-[#EA3829] pt-1">{formatAED(mainFeaturedProduct.price)}</p>
+                  <p className="text-2xl font-black text-[#EA3829] pt-1">{formatAED(mainFeaturedProduct.price)}</p>
                 </div>
 
-                <div className="relative aspect-square w-full max-w-[260px] mx-auto my-4 rounded-2xl overflow-hidden shadow-md">
+                <div className="relative aspect-[4/3] w-full my-4 rounded-2xl overflow-hidden shadow-2xl border border-slate-800 bg-[#070C1B]">
                   <Image
-                    src={mainFeaturedProduct.images?.[0]?.image_url || mainFeaturedProduct.image_url || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&auto=format&fit=crop&q=80'}
+                    src={mainFeaturedProduct.images?.[0]?.image_url || mainFeaturedProduct.image_url || '/products/dell-latitude-5480.jpg'}
                     alt={mainFeaturedProduct.name}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="260px"
+                    className="object-cover object-center scale-[1.03] group-hover:scale-108 transition-transform duration-500 ease-out"
+                    sizes="(max-width: 768px) 100vw, 450px"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                 </div>
 
-                <div className="relative z-10 pt-2">
+                <div className="relative z-10 pt-1">
                   <Link
                     href={`/products/${mainFeaturedProduct.slug}`}
-                    className="w-full bg-[#EA3829] hover:bg-[#D32F2F] text-white font-bold text-xs py-3 rounded-xl flex items-center justify-center space-x-2 transition-transform hover:scale-102 shadow-md"
+                    className="w-full bg-[#EA3829] hover:bg-[#D32F2F] text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl flex items-center justify-center space-x-2 transition-transform hover:scale-102 shadow-lg"
                   >
                     <span>Explore Device</span>
                     <ArrowRight className="w-4 h-4" />
@@ -304,7 +307,7 @@ export default function HomePage() {
 
             <div className="lg:col-span-5 relative aspect-square w-full max-w-sm mx-auto">
               <Image
-                src={homepageSettings?.banner1_image_url || 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/samsung-s24-ultra.png'}
+                src={homepageSettings?.banner1_image_url || '/products/samsung-s24-ultra.png'}
                 alt="Showcase Banner 1"
                 fill
                 className="object-contain"
@@ -360,7 +363,7 @@ export default function HomePage() {
 
           {/* Dual Side-by-Side Promotional Banners (Dynamic) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
+
             {/* Left Banner */}
             <div className="bg-gradient-to-br from-red-50 via-rose-50 to-orange-50 rounded-3xl p-6 sm:p-8 border border-red-200/80 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm group hover:shadow-md transition-all">
               <div className="space-y-3 flex-1 min-w-0">
@@ -386,7 +389,7 @@ export default function HomePage() {
 
               <div className="relative aspect-[4/3] w-full sm:w-52 h-44 rounded-2xl overflow-hidden bg-[#0B0F19] border border-slate-800 shadow-xl shrink-0">
                 <Image
-                  src={homepageSettings?.promo_left_image_url || 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/dji-mini-4-pro.png'}
+                  src={homepageSettings?.promo_left_image_url || '/products/dji-mini-4-pro.png'}
                   alt="Left Promo"
                   fill
                   className="object-cover scale-[1.03] group-hover:scale-110 transition-transform duration-500"
@@ -420,7 +423,7 @@ export default function HomePage() {
 
               <div className="relative aspect-[4/3] w-full sm:w-52 h-44 rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-xl shrink-0">
                 <Image
-                  src={homepageSettings?.promo_right_image_url || 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/macbook-pro-16.png'}
+                  src={homepageSettings?.promo_right_image_url || '/products/macbook-pro-16.png'}
                   alt="Right Promo"
                   fill
                   className="object-cover scale-[1.03] group-hover:scale-110 transition-transform duration-500"
@@ -463,7 +466,7 @@ export default function HomePage() {
         {/* ========================================================================= */}
         <section className="max-w-7xl mx-auto px-4 sm:px-8">
           <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/80 shadow-sm relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
+
             <div className="lg:col-span-7 space-y-4">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">
                 {homepageSettings?.banner2_badge || 'Official Apple Showcase'}
@@ -487,7 +490,7 @@ export default function HomePage() {
 
             <div className="lg:col-span-5 relative aspect-square w-full max-w-xs mx-auto">
               <Image
-                src={homepageSettings?.banner2_image_url || 'https://lxryqeomeomssenymqdp.supabase.co/storage/v1/object/public/skyhub/products/iphone-15-pro-max.png'}
+                src={homepageSettings?.banner2_image_url || '/products/iphone-15-pro-max.png'}
                 alt="Banner 2"
                 fill
                 className="object-contain"
@@ -551,7 +554,7 @@ export default function HomePage() {
                 Trusted by 2,500+ Buyers Across Dubai & UAE
               </h2>
             </div>
-            
+
             <div className="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-2xl border border-slate-200 shadow-sm shrink-0">
               <div className="flex text-amber-500">
                 {[...Array(5)].map((_, i) => (
@@ -569,47 +572,47 @@ export default function HomePage() {
             {(homepageSettings?.customer_reviews && homepageSettings.customer_reviews.length > 0
               ? homepageSettings.customer_reviews
               : [
-                  {
-                    id: '1',
-                    name: 'Mohammed Al-Hashemi',
-                    role: 'Verified Buyer • Deira, Dubai',
-                    rating: 5,
-                    avatar: '/avatars/customer-4.png',
-                    reviewTitle: 'Best Mobile Shop in Deira!',
-                    reviewText: 'Bought an iPhone 15 Pro Max from SKYHUB DUBAI. Device was 100% genuine sealed pack with official warranty. Fast WhatsApp response and friendly staff!',
-                    date: '2 days ago'
-                  },
-                  {
-                    id: '2',
-                    name: 'Sarah Jenkins',
-                    role: 'Content Creator • Downtown Dubai',
-                    rating: 5,
-                    avatar: '/avatars/customer-2.png',
-                    reviewTitle: 'Amazing Camera & Drone Gear',
-                    reviewText: 'Got the DJI Mini 4 Pro drone and wireless mics here. Honest pricing, great service, and they tested everything at their Fish Roundabout showroom.',
-                    date: '1 week ago'
-                  },
-                  {
-                    id: '3',
-                    name: 'Alexey Volkov',
-                    role: 'Software Engineer • Business Bay',
-                    rating: 5,
-                    avatar: '/avatars/customer-1.png',
-                    reviewTitle: 'Pristine MacBook Pro M3',
-                    reviewText: 'The MacBook Pro condition was beyond expectations! Zero scratches, 100% battery health, and saved over 1,500 AED compared to retail. Highly recommended!',
-                    date: '2 weeks ago'
-                  },
-                  {
-                    id: '4',
-                    name: 'Tariq Al-Maktoum',
-                    role: 'Business Owner • Jumeirah, Dubai',
-                    rating: 5,
-                    avatar: '/avatars/customer-3.png',
-                    reviewTitle: 'Quick & Honest Service',
-                    reviewText: 'Outstanding laptop repair & data recovery service. Restored all files from my corrupted SSD in less than 24 hours. Reliable team at SKYHUB.',
-                    date: '3 weeks ago'
-                  }
-                ]
+                {
+                  id: '1',
+                  name: 'Mohammed Al-Hashemi',
+                  role: 'Verified Buyer • Deira, Dubai',
+                  rating: 5,
+                  avatar: '/avatars/customer-4.png',
+                  reviewTitle: 'Best Mobile Shop in Deira!',
+                  reviewText: 'Bought an iPhone 15 Pro Max from SKYHUB DUBAI. Device was 100% genuine sealed pack with official warranty. Fast WhatsApp response and friendly staff!',
+                  date: '2 days ago'
+                },
+                {
+                  id: '2',
+                  name: 'Sarah Jenkins',
+                  role: 'Content Creator • Downtown Dubai',
+                  rating: 5,
+                  avatar: '/avatars/customer-2.png',
+                  reviewTitle: 'Amazing Camera & Drone Gear',
+                  reviewText: 'Got the DJI Mini 4 Pro drone and wireless mics here. Honest pricing, great service, and they tested everything at their Fish Roundabout showroom.',
+                  date: '1 week ago'
+                },
+                {
+                  id: '3',
+                  name: 'Alexey Volkov',
+                  role: 'Software Engineer • Business Bay',
+                  rating: 5,
+                  avatar: '/avatars/customer-1.png',
+                  reviewTitle: 'Pristine MacBook Pro M3',
+                  reviewText: 'The MacBook Pro condition was beyond expectations! Zero scratches, 100% battery health, and saved over 1,500 AED compared to retail. Highly recommended!',
+                  date: '2 weeks ago'
+                },
+                {
+                  id: '4',
+                  name: 'Tariq Al-Maktoum',
+                  role: 'Business Owner • Jumeirah, Dubai',
+                  rating: 5,
+                  avatar: '/avatars/customer-3.png',
+                  reviewTitle: 'Quick & Honest Service',
+                  reviewText: 'Outstanding laptop repair & data recovery service. Restored all files from my corrupted SSD in less than 24 hours. Reliable team at SKYHUB.',
+                  date: '3 weeks ago'
+                }
+              ]
             ).map((review) => (
               <div
                 key={review.id}
