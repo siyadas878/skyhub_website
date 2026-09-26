@@ -2,7 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { clearAdminAuthSession } from '@/lib/utils/admin-auth';
 import {
   LayoutDashboard,
   Package,
@@ -18,6 +19,12 @@ import {
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    clearAdminAuthSession();
+    router.push('/admin/login');
+  };
 
   const navItems = [
     { name: 'Dashboard Overview', href: '/admin/dashboard', icon: LayoutDashboard },
@@ -80,13 +87,13 @@ export function AdminSidebar() {
           <span>View Public Store</span>
           <ExternalLink className="w-3.5 h-3.5 text-sky-400" />
         </Link>
-        <Link
-          href="/admin/login"
-          className="flex items-center space-x-2 text-xs text-red-400 hover:text-red-300 px-3 py-2 rounded-lg font-semibold"
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center space-x-2 text-xs text-red-400 hover:text-red-300 px-3 py-2 rounded-lg font-semibold transition-colors text-left"
         >
           <LogOut className="w-4 h-4" />
           <span>Sign Out</span>
-        </Link>
+        </button>
       </div>
     </aside>
   );
